@@ -25,7 +25,6 @@ class NetworkActivity : AppCompatActivity() {
             fetchJsonData1(text_view_json1)
             fetchJsonData2(text_view_json2)
             fetchJsonData3(text_view_json3)
-            Log.d(TAG, "onCreate: onClick")
            return@setOnClickListener
         }
     }
