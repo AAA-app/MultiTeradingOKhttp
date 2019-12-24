@@ -22,17 +22,14 @@ class NetworkActivity : AppCompatActivity() {
         val btnStarJson = findViewById<Button>(R.id.button_start_json)
 
         btnStarJson.setOnClickListener {
+            job1.start()
             fetchJsonDogApi(text_view_json1)
-            dogApiThread1.start()
-
+            job2.start()
             fetchJsonIPApi(text_view_json2)
-            iPApiThread2.start()
-
+            job3.start()
             fetchMyJsonServices(text_view_json3)
-
-            myJsonServicesThread3.start()
-
             println("thread is run")
+
             return@setOnClickListener
         }
     }
@@ -43,16 +40,15 @@ class NetworkActivity : AppCompatActivity() {
         val request = Request.Builder().url(url).build()
         val httpClient = OkHttpClient()
         val txtJson1 = text.findViewById<TextView>(R.id.text_view_json1)
-        Log.d(TAG, "fetchJsonData1: Successful")
+
 
         httpClient.newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body?.string()
                 val gson = GsonBuilder().create()
                 val ipData: DogResponse = gson.fromJson(body, DogResponse::class.java)
-
                 runOnUiThread { txtJson1.text = ipData.toString() }.toString()
-                Log.d(TAG, "onResponse: successful ")
+                Log.d(TAG, "fetchJsonDogApi: Successful")
             }
 
             override fun onFailure(call: Call, e: IOException) {
@@ -75,7 +71,7 @@ class NetworkActivity : AppCompatActivity() {
                 val ipData: IpCountry = gson.fromJson(body, IpCountry::class.java)
 
                 runOnUiThread{txtJson2.text = ipData.toString()}.toString()
-                Log.d(TAG, "fetchJsonData2(DogApi): successful ")
+                Log.d(TAG, "fetchJsonIPApi: successful ")
             }
 
             override fun onFailure(call: Call, e: IOException) {
@@ -98,7 +94,7 @@ class NetworkActivity : AppCompatActivity() {
                 val ipData: UserData = gson.fromJson(body, UserData::class.java)
 
                 runOnUiThread{txtJson3.text = ipData.toString()}.toString()
-                Log.d(TAG, "fetchJsonData3(MyJsonServices): successful ")
+                Log.d(TAG, "fetchMyJsonServices: successful ")
 
             }
 
